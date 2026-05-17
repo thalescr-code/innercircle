@@ -110,7 +110,6 @@ export const CircleRollApp: React.FC = () => {
           <CircleHeader 
             onOpenRoster={() => setIsRosterOpen(true)} 
             onOpenUpload={() => setIsUploadOpen(true)}
-            onOpenInvite={() => setIsInviteOpen(true)}
           />
 
           <main className="flex-1 pb-32">
@@ -131,6 +130,10 @@ export const CircleRollApp: React.FC = () => {
       <MembersRoster 
         isOpen={isRosterOpen} 
         onClose={() => setIsRosterOpen(false)} 
+        onOpenInvite={() => {
+          setIsRosterOpen(false);
+          setIsInviteOpen(true);
+        }}
       />
 
       {/* Upload Shutter Overlay */}

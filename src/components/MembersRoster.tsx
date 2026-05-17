@@ -2,15 +2,16 @@
 
 import React from "react";
 import { useCircle } from "@/context/CircleContext";
-import { X, Shield, ShieldAlert, UserMinus, AlertTriangle } from "lucide-react";
+import { X, Shield, ShieldAlert, UserMinus, AlertTriangle, UserPlus } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface MembersRosterProps {
   isOpen: boolean;
   onClose: () => void;
+  onOpenInvite: () => void;
 }
 
-export const MembersRoster: React.FC<MembersRosterProps> = ({ isOpen, onClose }) => {
+export const MembersRoster: React.FC<MembersRosterProps> = ({ isOpen, onClose, onOpenInvite }) => {
   const { activeMembers, bootedMembers, circle, currentUser, manuallyRemoveMember, mounted, setFilterUploaderId } = useCircle();
 
   if (!mounted) return null;
@@ -60,6 +61,25 @@ export const MembersRoster: React.FC<MembersRosterProps> = ({ isOpen, onClose })
             {/* Roster Body (Scrollable) */}
             <div className="flex-1 overflow-y-auto p-5 space-y-6">
               
+              {/* Host Invite Action (Host Only) */}
+              {isHost && (
+                <div className="p-4 rounded-2xl bg-zinc-900 border border-zinc-800/80 space-y-2.5">
+                  <div className="flex items-center gap-2 text-brand-orange">
+                    <UserPlus className="w-4 h-4" />
+                    <span className="text-[10px] font-bold uppercase tracking-wider">Host Actions</span>
+                  </div>
+                  <p className="text-[9px] text-zinc-500 leading-normal font-semibold">
+                    Simulate group invitations or share circle rollout credentials below.
+                  </p>
+                  <button
+                    onClick={onOpenInvite}
+                    className="w-full py-2.5 flex items-center justify-center gap-1.5 rounded-xl bg-brand-orange text-white hover:bg-brand-orange/90 text-xs font-bold uppercase tracking-wider transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
+                  >
+                    <span>Invite Friends</span>
+                  </button>
+                </div>
+              )}
+
               {/* Active Members Section */}
               <div className="space-y-3">
                 <div className="flex justify-between items-center text-[10px] font-mono text-zinc-500 uppercase tracking-wider">
