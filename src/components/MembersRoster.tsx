@@ -2,7 +2,7 @@
 
 import React from "react";
 import { useCircle } from "@/context/CircleContext";
-import { X, Shield, ShieldAlert, UserMinus, AlertTriangle, UserPlus } from "lucide-react";
+import { X, Shield, ShieldAlert, UserMinus, AlertTriangle, UserPlus, Flame } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface MembersRosterProps {
@@ -12,7 +12,7 @@ interface MembersRosterProps {
 }
 
 export const MembersRoster: React.FC<MembersRosterProps> = ({ isOpen, onClose, onOpenInvite }) => {
-  const { activeMembers, bootedMembers, circle, currentUser, manuallyRemoveMember, mounted, setFilterUploaderId } = useCircle();
+  const { activeMembers, bootedMembers, circle, currentUser, manuallyRemoveMember, mounted, setFilterUploaderId, toggleSavageMode } = useCircle();
 
   if (!mounted) return null;
 
@@ -59,7 +59,7 @@ export const MembersRoster: React.FC<MembersRosterProps> = ({ isOpen, onClose, o
             </div>
 
             {/* Roster Body (Scrollable) */}
-            <div className="flex-1 overflow-y-auto p-5 space-y-6">
+            <div className="flex-1 overflow-y-auto p-5 space-y-5">
               
               {/* Host Invite Action (Host Only) */}
               {isHost && (
@@ -79,6 +79,56 @@ export const MembersRoster: React.FC<MembersRosterProps> = ({ isOpen, onClose, o
                   </button>
                 </div>
               )}
+
+              {/* Savage Mode Controls Card (For all members) */}
+              <div className="p-4 rounded-2xl bg-zinc-900 border border-zinc-800/80 space-y-3">
+                <div className="flex items-center justify-between border-b border-zinc-800 pb-2">
+                  <div className="flex items-center gap-2">
+                    <Flame className="w-4 h-4 text-brand-orange" />
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-zinc-300">Savage Mode Status</span>
+                  </div>
+                  <span className={`text-[8px] font-extrabold uppercase px-2 py-0.5 rounded-md ${
+                    circle.isSavageModeEnabled 
+                      ? "text-brand-orange bg-brand-orange/10 border border-brand-orange/20" 
+                      : "text-zinc-600 bg-zinc-950 border border-zinc-900"
+                  }`}>
+                    {circle.isSavageModeEnabled ? "Active" : "Suspended"}
+                  </span>
+                </div>
+
+                <p className="text-[9px] text-zinc-500 leading-relaxed font-semibold">
+                  Self-Moderation: Flags from a strict majority (&gt;50%) of active members delete any photo instantly.
+                </p>
+
+                {/* Majority Threshold badge */}
+                {circle.isSavageModeEnabled && (
+                  <div className="flex items-center justify-between bg-zinc-950/60 border border-zinc-900/60 p-2 rounded-xl text-[9px] text-zinc-400">
+                    <span className="font-semibold">Majority Threshold:</span>
+                    <span className="text-brand-orange font-bold font-mono">
+                      {Math.floor(activeMembers.length / 2) + 1} of {activeMembers.length} flags
+                    </span>
+                  </div>
+                )}
+
+                {/* Host Savage Toggle control */}
+                {isHost && (
+                  <div className="flex items-center justify-between pt-1 border-t border-zinc-850 mt-1">
+                    <span className="text-[9px] text-zinc-400 font-bold uppercase">Toggle Savage Mode</span>
+                    <button
+                      onClick={toggleSavageMode}
+                      className={`relative w-8 h-4 rounded-full transition-colors cursor-pointer shrink-0 ${
+                        circle.isSavageModeEnabled ? "bg-brand-orange" : "bg-zinc-800"
+                      }`}
+                    >
+                      <div
+                        className={`absolute top-0.5 w-3 h-3 rounded-full bg-white transition-transform duration-200 ${
+                          circle.isSavageModeEnabled ? "left-4.5" : "left-0.5"
+                        }`}
+                      />
+                    </button>
+                  </div>
+                )}
+              </div>
 
               {/* Active Members Section */}
               <div className="space-y-3">

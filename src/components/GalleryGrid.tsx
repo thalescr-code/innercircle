@@ -42,64 +42,6 @@ export const GalleryGrid: React.FC = () => {
 
   return (
     <div className="px-4 py-6 md:px-6 max-w-7xl mx-auto w-full">
-      
-      {/* Savage Mode Header Banner Info */}
-      <div className="mb-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-4 rounded-2xl bg-zinc-950 border border-zinc-900/80">
-        <div className="flex items-center gap-2.5">
-          <div className={`w-2 h-2 rounded-full ${circle.isSavageModeEnabled ? "bg-brand-orange animate-pulse" : "bg-zinc-600"}`} />
-          <div>
-            <h3 className="text-xs font-semibold uppercase text-zinc-300 tracking-wider">
-              Self-Moderation: {circle.isSavageModeEnabled ? "Active" : "Suspended"}
-            </h3>
-            <p className="text-[10px] text-zinc-500 mt-0.5 font-medium">
-              {circle.isSavageModeEnabled 
-                ? "Flags from a strict majority (>50%) of active members delete a photo instantly."
-                : "Savage Mode auto-deletion is currently suspended by the Host."
-              }
-            </p>
-          </div>
-        </div>
-        
-        <div className="flex flex-wrap items-center gap-3">
-          {/* Host Savage Mode Toggle */}
-          {isHost ? (
-            <div className="flex items-center gap-2 bg-zinc-900 border border-zinc-800 pl-3 pr-2.5 py-1.5 rounded-xl select-none">
-              <span className="text-[10px] text-zinc-400 font-bold uppercase tracking-wider">
-                Savage Mode:
-              </span>
-              <button
-                onClick={toggleSavageMode}
-                className={`relative w-8 h-4 rounded-full transition-colors cursor-pointer shrink-0 ${
-                  circle.isSavageModeEnabled ? "bg-brand-orange" : "bg-zinc-800"
-                }`}
-                title={circle.isSavageModeEnabled ? "Disable Savage Mode Auto-deletion" : "Enable Savage Mode Auto-deletion"}
-              >
-                <div
-                  className={`absolute top-0.5 w-3 h-3 rounded-full bg-white transition-transform duration-200 ${
-                    circle.isSavageModeEnabled ? "left-4.5" : "left-0.5"
-                  }`}
-                />
-              </button>
-            </div>
-          ) : (
-            <div className="bg-zinc-900 px-3 py-1.5 rounded-xl border border-zinc-800 text-[10px] text-zinc-400 font-medium">
-              Savage Status:{" "}
-              <span className={`font-bold uppercase ${circle.isSavageModeEnabled ? "text-brand-orange" : "text-zinc-600"}`}>
-                {circle.isSavageModeEnabled ? "ON" : "OFF"}
-              </span>
-            </div>
-          )}
-
-          {circle.isSavageModeEnabled && (
-            <div className="bg-zinc-900 px-3 py-1.5 rounded-xl border border-zinc-800 text-[10px] text-zinc-400 font-medium">
-              Majority Threshold:{" "}
-              <span className="text-brand-orange font-bold">
-                {votesRequiredToDelete} of {activeMembersCount} flags
-              </span>
-            </div>
-          )}
-        </div>
-      </div>
 
       {/* Prominent Go Back/Filter Active Sub-navigation */}
       {filterUploaderId && (
