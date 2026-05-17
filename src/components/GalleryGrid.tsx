@@ -116,15 +116,31 @@ export const GalleryGrid: React.FC = () => {
                 >
                   <div className="bg-zinc-950 border border-zinc-900 p-2.5 rounded-2xl shadow-lg relative overflow-hidden transition-all duration-300 hover:border-zinc-800">
                     
-                    {/* Photo Container */}
+                    {/* Photo/Video Container */}
                     <div className="relative overflow-hidden rounded-xl">
-                      <img
-                        src={photo.mediaUrl}
-                        alt="Circle film roll"
-                        onClick={() => setActivePhoto(photo)}
-                        className="w-full h-auto object-cover rounded-xl transition-transform duration-500 group-hover:scale-[1.02] filter contrast-[1.05] cursor-pointer"
-                        loading="lazy"
-                      />
+                      {photo.mediaUrl.endsWith(".mp4") || photo.mediaUrl.includes("video") ? (
+                        <div className="relative w-full rounded-xl overflow-hidden cursor-pointer" onClick={() => setActivePhoto(photo)}>
+                          <video
+                            src={photo.mediaUrl}
+                            className="w-full h-auto object-cover rounded-xl"
+                            muted
+                            loop
+                            playsInline
+                            autoPlay
+                          />
+                          <div className="absolute top-2.5 right-2.5 z-20 w-6 h-6 rounded-full bg-black/60 backdrop-blur-sm flex items-center justify-center border border-white/10 pointer-events-none">
+                            <span className="text-[7px] font-extrabold text-brand-orange uppercase tracking-wider">MP4</span>
+                          </div>
+                        </div>
+                      ) : (
+                        <img
+                          src={photo.mediaUrl}
+                          alt="Circle film roll"
+                          onClick={() => setActivePhoto(photo)}
+                          className="w-full h-auto object-cover rounded-xl transition-transform duration-500 group-hover:scale-[1.02] filter contrast-[1.05] cursor-pointer"
+                          loading="lazy"
+                        />
+                      )}
 
                       {/* Subtle Overlay Border Lines */}
                       <div className="absolute inset-0 border border-white/5 pointer-events-none rounded-xl" />
@@ -265,11 +281,22 @@ export const GalleryGrid: React.FC = () => {
                 {/* Left/Center Image Screen */}
                 <div className="flex-1 bg-black flex items-center justify-center p-6 relative overflow-hidden border-b md:border-b-0 md:border-r border-zinc-900">
                   <div className="relative max-h-full max-w-full flex items-center justify-center">
-                    <img
-                      src={photoObj.mediaUrl}
-                      alt="Film slide detail"
-                      className="max-h-[45vh] md:max-h-[60vh] max-w-full rounded-xl object-contain shadow-2xl filter contrast-[1.03] select-none pointer-events-none"
-                    />
+                    {photoObj.mediaUrl.endsWith(".mp4") || photoObj.mediaUrl.includes("video") ? (
+                      <video
+                        src={photoObj.mediaUrl}
+                        controls
+                        autoPlay
+                        loop
+                        playsInline
+                        className="max-h-[45vh] md:max-h-[60vh] max-w-full rounded-xl object-contain shadow-2xl"
+                      />
+                    ) : (
+                      <img
+                        src={photoObj.mediaUrl}
+                        alt="Film slide detail"
+                        className="max-h-[45vh] md:max-h-[60vh] max-w-full rounded-xl object-contain shadow-2xl filter contrast-[1.03] select-none pointer-events-none"
+                      />
+                    )}
                     
                     {/* Timestamp overlay printed on photo layout */}
                     <div className="absolute bottom-4 right-4 bg-black/60 border border-white/5 backdrop-blur-md px-3 py-1.5 rounded-lg select-none">
@@ -291,7 +318,7 @@ export const GalleryGrid: React.FC = () => {
                   <div className="space-y-6">
                     <div>
                       <span className="text-[9px] font-semibold text-zinc-500 uppercase tracking-widest block mb-1">
-                        EXIF Metadata
+                        Shared Media Info
                       </span>
                       <h3 className="text-2xl text-zinc-200 font-bold leading-none">
                         Details
@@ -310,23 +337,25 @@ export const GalleryGrid: React.FC = () => {
                         <span className="text-zinc-300">{photoObj.timestamp}</span>
                       </div>
                       <div className="flex justify-between border-b border-zinc-900 pb-1.5">
-                        <span className="text-zinc-500">CAMERA:</span>
+                        <span className="text-zinc-500">SOURCE:</span>
                         <span className="text-zinc-300 flex items-center gap-1">
                           <Camera className="w-3 h-3 text-zinc-500" />
-                          <span>IC-35MM PORTABLE</span>
+                          <span>Simulated Live Lens</span>
                         </span>
                       </div>
                       <div className="flex justify-between border-b border-zinc-900 pb-1.5">
-                        <span className="text-zinc-500">LENS:</span>
-                        <span className="text-zinc-300">35mm f/2.8</span>
+                        <span className="text-zinc-500">TYPE:</span>
+                        <span className="text-zinc-300">
+                          {photoObj.mediaUrl.endsWith(".mp4") || photoObj.mediaUrl.includes("video") ? "Video Roll" : "Photo Roll"}
+                        </span>
                       </div>
                       <div className="flex justify-between border-b border-zinc-900 pb-1.5">
-                        <span className="text-zinc-500">SHUTTER:</span>
-                        <span className="text-zinc-300">1/125s</span>
+                        <span className="text-zinc-500">VIBE:</span>
+                        <span className="text-zinc-300">Candid & Warm</span>
                       </div>
                       <div className="flex justify-between border-b border-zinc-900 pb-1.5">
-                        <span className="text-zinc-500">FILM SPEED:</span>
-                        <span className="text-brand-orange">ISO 400</span>
+                        <span className="text-zinc-500">CIRCLE:</span>
+                        <span className="text-brand-orange">Close Friends</span>
                       </div>
                       <div className="flex justify-between">
                         <span className="text-zinc-500">FLAGS RECORDED:</span>
