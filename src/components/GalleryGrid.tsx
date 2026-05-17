@@ -55,9 +55,9 @@ export const GalleryGrid: React.FC = () => {
           <button
             onClick={() => setFilterUploaderId(null)}
             className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-zinc-805 text-zinc-200 text-xs font-bold uppercase tracking-wider transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
-            title="Show all uploads in this Circle"
+            title="Return to entire Circle roll"
           >
-            <span>← Back to All Photos</span>
+            <span>← Back to Circle</span>
           </button>
         </div>
       )}
@@ -80,7 +80,7 @@ export const GalleryGrid: React.FC = () => {
               onClick={() => setFilterUploaderId(null)}
               className="mt-4 px-4 py-2 bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 rounded-xl text-xs text-zinc-300 transition-colors uppercase tracking-wider font-semibold cursor-pointer"
             >
-              Clear Directory Filter
+              ← Back to Circle
             </button>
           )}
         </div>
@@ -117,7 +117,7 @@ export const GalleryGrid: React.FC = () => {
                   <div className="bg-zinc-950 border border-zinc-900 p-2.5 rounded-2xl shadow-lg relative overflow-hidden transition-all duration-300 hover:border-zinc-800">
                     
                     {/* Photo Container */}
-                    <div className="relative overflow-hidden rounded-xl aspect-[3/4] sm:aspect-auto">
+                    <div className="relative overflow-hidden rounded-xl">
                       <img
                         src={photo.mediaUrl}
                         alt="Circle film roll"
